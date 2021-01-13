@@ -1,0 +1,39 @@
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+Mat rotate(Mat inp, double a)
+{
+    Mat out;
+    std::cout << " INPUT ANGLE " << endl;
+    cin >> a;
+    Point2f pt(inp.cols / 2., inp.rows / 2.);
+    Mat r = getRotationMatrix2D(pt, a, 0.7);
+
+    warpAffine(inp, out, r, Size(inp.cols, inp.rows));
+    return out;
+}
+
+int main()
+{
+    Mat inp = imread("D://test.jpg");
+    if (inp.empty())
+    {
+        cout << " COULD NOT OPEN OR FIND THE IMAGE " << endl;
+        cin.get(); 
+        return -1;
+    }
+    Mat out;
+    out = rotate(inp, 10);
+    String windowName = "inp";
+    namedWindow(windowName, WINDOW_NORMAL);
+    imshow("inp", inp);
+    String windowNamee = "out";
+    namedWindow(windowNamee, WINDOW_NORMAL);
+    imshow("out", out);
+    waitKey(0);
+    return 0;
+}
